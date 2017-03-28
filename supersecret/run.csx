@@ -5,10 +5,10 @@ using Microsoft.Azure.KeyVault;
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {
     log.Info("C# HTTP trigger function processed a request.");
+    //var mysecret = GetEnvironmentVariable("SecretUri");
+    var kv = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(GetToken));
 
-    //var kv = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(GetToken));
-
-    //var mysecret = kv.GetSecretAsync(GetEnvironmentVariable("SecretUri")).Result;
+    var mysecret = kv.GetSecretAsync(GetEnvironmentVariable("SecretUri")).Result.Value;
 
     // parse query parameter
     string name = req.GetQueryNameValuePairs()
